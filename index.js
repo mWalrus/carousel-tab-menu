@@ -6,7 +6,7 @@ for (let i = 0; i < children.length; i++) {
   if (i > 0) {
     const newX = children[i - 1].getBoundingClientRect().width
     currentOffsetX += newX
-    children[i].style.left = `${50 + currentOffsetX}px`;
+    children[i].style.left = `${currentOffsetX}px`;
     
   } else {
     children[i].style.opacity = '1'
@@ -24,7 +24,7 @@ function transform(idx) {
   let selected = children[idx]
   let xOffset = 0
   if (selected.style.left) {
-    xOffset = -parseInt(selected.style.left.replace(/px/, '')) + 50
+    xOffset = -parseInt(selected.style.left.replace(/px/, ''))
   }
 
   for (let i = 0; i < children.length; i++) {
