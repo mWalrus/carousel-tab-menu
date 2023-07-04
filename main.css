@@ -1,0 +1,25 @@
+.container {
+  position: relative;
+  padding: 50px;
+}
+
+.container span {
+  position: absolute;
+  display: block;
+  padding: 1em .7em;
+  color: black;
+  transition-duration: 0.7s;
+  opacity: 0.3;
+  cursor: pointer;
+  font-family: 'Arial';
+}
+
+.bar {
+  content: '';
+  width: 40px;
+  height: 5px;
+  background-color: crimson;
+  position: absolute;
+  top: 80px;
+  left: 70px;
+}
