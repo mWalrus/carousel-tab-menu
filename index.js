@@ -1,21 +1,17 @@
 const container = document.querySelector('.container')
+const children = container.children
 
-let index = 0
-let xOffset = 0
-console.log(document.querySelector('.bar').getBoundingClientRect().width)
-
-for (const child of container.children) {
-  if (index > 0) {
-    const newX = container.children[index - 1].getBoundingClientRect().width
-    xOffset += newX
-    container.children[index].style.left = `${50 + xOffset}px`;
+let currentOffsetX = 0
+for (let i = 0; i < children.length; i++) {
+  if (i > 0) {
+    const newX = children[i - 1].getBoundingClientRect().width
+    currentOffsetX += newX
+    children[i].style.left = `${50 + currentOffsetX}px`;
     
   } else {
-    container.children[index].style.opacity = '1'
+    children[i].style.opacity = '1'
   }
-  console.log(child.getBoundingClientRect().width)
-  addListener(child, index)
-  index++
+  addListener(children[i], i)
 }
 
 function addListener(node, i) {
@@ -25,18 +21,19 @@ function addListener(node, i) {
 }
 
 function transform(idx) {
-  let selected = container.children[idx]
+  let selected = children[idx]
   let xOffset = 0
   if (selected.style.left) {
     xOffset = -parseInt(selected.style.left.replace(/px/, '')) + 50
   }
 
-  for (let i = 0; i < container.children.length; i++) {
-    container.children[i].style.transform = `translateX(${xOffset}px)`
+  for (let i = 0; i < children.length; i++) {
+    let c = children[i]
+    c.style.transform = `translateX(${xOffset}px)`
     if (i === idx) {
-      container.children[i].style.opacity = '1'
+      c.style.opacity = '1'
     } else {
-      container.children[i].style.opacity = '0.3'
+      c.style.opacity = '0.3'
     }
   }
 }
