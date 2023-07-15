@@ -1,17 +1,20 @@
 .container {
-  position: relative;
+  position: absolute;
   margin: 50px;
+  transition-duration: 0.7s;
 }
 
 .container span {
-  position: absolute;
-  display: block;
   padding: 1em .7em;
   color: black;
   transition-duration: 0.7s;
   opacity: 0.3;
   cursor: pointer;
   font-family: 'Arial';
+}
+
+.container span.selected {
+  opacity: 1;
 }
 
 .bar {

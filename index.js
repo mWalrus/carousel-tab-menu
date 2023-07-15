@@ -1,18 +1,31 @@
+const SELECTED = 'selected'
+
 const container = document.querySelector('.container')
 const children = container.children
 
-let currentOffsetX = 0
-for (let i = 0; i < children.length; i++) {
-  if (i > 0) {
-    const newX = children[i - 1].getBoundingClientRect().width
-    currentOffsetX += newX
-    children[i].style.left = `${currentOffsetX}px`;
-    
-  } else {
-    children[i].style.opacity = '1'
+let selected_index = 0;
+
+children[selected_index].classList.add(SELECTED)
+
+container.addEventListener('wheel', (evt) => {
+  if (evt.deltaY < 0 && selected_index > 0) {
+    transform(selected_index - 1)
+  }else if (evt.deltaY > 0 && selected_index < children.length - 1) {
+    transform(selected_index + 1)
   }
+})
+
+
+let xOffsets = []
+let currentOffset = 0
+for (let i = 0; i < children.length; i++) {
+  xOffsets.push(currentOffset)
+  const newX = children[i].getBoundingClientRect().width
+  currentOffset += newX + 4 // add 4px for the whitespace text nodes in between spans
+
   addListener(children[i], i)
 }
+container.style.width = currentOffset
 
 function addListener(node, i) {
   node.addEventListener('click', () => {
@@ -21,19 +34,20 @@ function addListener(node, i) {
 }
 
 function transform(idx) {
-  let selected = children[idx]
-  let xOffset = 0
-  if (selected.style.left) {
-    xOffset = -parseInt(selected.style.left.replace(/px/, ''))
-  }
+  selected_index = idx
+  let xOffset = -xOffsets[idx]
 
   for (let i = 0; i < children.length; i++) {
     let c = children[i]
-    c.style.transform = `translateX(${xOffset}px)`
+    container.style.transform = `translateX(${xOffset}px)`
     if (i === idx) {
-      c.style.opacity = '1'
+      if (!c.classList.contains(SELECTED)) {
+        c.classList.add(SELECTED)
+      }
     } else {
-      c.style.opacity = '0.3'
+      if (c.classList.contains(SELECTED)) {
+        c.classList.remove(SELECTED)
+      }
     }
   }
 }
